@@ -3,6 +3,7 @@ import { IUser } from "../../../types/user.type";
 
 // initial state for user
 const initialState: IUser = {
+  _id: "",
   fullName: "",
   userName: "",
   email: "",
@@ -20,6 +21,7 @@ const userSlice = createSlice({
   reducers: {
     addUser: (state, action) => {
       const {
+        _id,
         fullName,
         userName,
         email,
@@ -30,6 +32,7 @@ const userSlice = createSlice({
         token,
       } = action.payload;
 
+      state._id = _id;
       state.fullName = fullName;
       state.userName = userName;
       state.email = email;
@@ -41,6 +44,7 @@ const userSlice = createSlice({
     },
 
     logOut: (state) => {
+      state._id = "";
       state.fullName = "";
       state.userName = "";
       state.email = "";
