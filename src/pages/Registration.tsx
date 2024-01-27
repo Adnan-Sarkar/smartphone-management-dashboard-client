@@ -2,45 +2,77 @@ import { Button, Col, Form, Input, Row, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import sendImageToCloudinary from "../utils/sendImageToCloudinary";
+import { useRegisterMutation } from "../redux/features/user/userApi";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 const Registration = () => {
   const { handleSubmit, control } = useForm();
+  const [registration] = useRegisterMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    const { fullName, userName } = data;
+    const {
+      fullName,
+      userName,
+      email,
+      password,
+      phone,
+      gender,
+      age,
+      profileImage,
+    } = data;
 
-    if (!fullName) {
-      toast.error("Full name is required", {
-        duration: 1000,
-      });
-    }
-    if (!userName) {
-      toast.error("User name is required", {
-        duration: 1000,
-      });
-    }
+    if (
+      !fullName &&
+      !userName &&
+      !email &&
+      !password &&
+      !phone &&
+      !gender &&
+      !age &&
+      !profileImage
+    ) {
+      toast.error("Please provide every information!");
+    } else {
+      // send profile image to cloudinary and get the hosted url
+      const imageUrl = await sendImageToCloudinary(profileImage.file);
 
-    try {
-      const formData = new FormData();
-      formData.append("file", data.profileImage.file);
-      formData.append("upload_preset", "smartphone-management");
-      formData.append("cloud_name", "dxljyilvl");
+      const toastId = toast.loading("Registration processing...");
+      try {
+        const response = await registration({
+          fullName,
+          userName,
+          email,
+          password,
+          phone,
+          gender,
+          age: Number(age),
+          profileImage: imageUrl,
+        }).unwrap();
 
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dxljyilvl/image/upload",
-        {
-          method: "POST",
-          body: formData,
+        // check registration is successfull or not
+        if (response?.status !== 201) {
+          throw new Error(response.data.message);
         }
-      );
 
-      const result = await response.json();
-      console.log(result);
-    } catch (err) {
-      console.log(err);
+        toast.success("Congratulation, your registration is successfull", {
+          id: toastId,
+          duration: 1000,
+        });
+        // navigate login page
+        navigate("/login");
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        console.log(err);
+        toast.error("Registration failed! Try again", {
+          id: toastId,
+          duration: 1000,
+        });
+      }
     }
   };
 
@@ -63,6 +95,7 @@ const Registration = () => {
         layout="vertical"
         onFinish={handleSubmit(onSubmit)}
       >
+        <h1 style={{ textAlign: "center" }}>Create New Account</h1>
         <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 8]}>
           <Col span={12}>
             <Form.Item label="Full Name" name="fullName">
@@ -169,7 +202,7 @@ const Registration = () => {
         </Form.Item>
 
         <div style={{ textAlign: "center" }}>
-          Already have an account? Login
+          Already have an account? <Link to={"/login"}>Login</Link>
         </div>
       </Form>
     </div>
