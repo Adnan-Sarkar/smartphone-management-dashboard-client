@@ -5,15 +5,20 @@ import toast from "react-hot-toast";
 import sendImageToCloudinary from "../utils/sendImageToCloudinary";
 import { useRegisterMutation } from "../redux/features/user/userApi";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const { Option } = Select;
 
 const Registration = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { handleSubmit, control } = useForm();
   const [registration] = useRegisterMutation();
   const navigate = useNavigate();
 
   const onSubmit = async (data: FieldValues) => {
+    setIsLoading(true);
+    const toastId = toast.loading("Registration processing...");
+
     const {
       fullName,
       userName,
@@ -35,12 +40,15 @@ const Registration = () => {
       !age &&
       !profileImage
     ) {
-      toast.error("Please provide every information!");
+      setIsLoading(false);
+      toast.error("Please provide every information!", {
+        id: toastId,
+        duration: 1500,
+      });
     } else {
       // send profile image to cloudinary and get the hosted url
       const imageUrl = await sendImageToCloudinary(profileImage.file);
 
-      const toastId = toast.loading("Registration processing...");
       try {
         const response = await registration({
           fullName,
@@ -54,9 +62,11 @@ const Registration = () => {
         }).unwrap();
 
         // check registration is successfull or not
-        if (response?.status !== 201) {
+        if (response?.statusCode !== 201) {
           throw new Error(response.data.message);
         }
+
+        setIsLoading(false);
 
         toast.success("Congratulation, your registration is successfull", {
           id: toastId,
@@ -67,7 +77,7 @@ const Registration = () => {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        console.log(err);
+        setIsLoading(false);
         toast.error("Registration failed! Try again", {
           id: toastId,
           duration: 1000,
@@ -196,7 +206,13 @@ const Registration = () => {
         </Row>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            loading={isLoading}
+            disabled={isLoading}
+          >
             Registration
           </Button>
         </Form.Item>
