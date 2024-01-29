@@ -19,12 +19,7 @@ const Login = () => {
     const toastId = toast.loading("Loged In...");
     const { email, password } = data;
 
-    if (!email && !password) {
-      setIsLoading(false);
-      toast.error("Please provide every information!", {
-        duration: 1000,
-      });
-    } else {
+    if (email && password) {
       try {
         const response = await login({
           email,
@@ -56,7 +51,7 @@ const Login = () => {
           duration: 1000,
         });
 
-        navigate("/dashboard");
+        navigate("/inventory");
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
@@ -73,6 +68,11 @@ const Login = () => {
           });
         }
       }
+    } else {
+      setIsLoading(false);
+      toast.error("Please provide every information!", {
+        duration: 1000,
+      });
     }
   };
 

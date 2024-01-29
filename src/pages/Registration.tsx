@@ -31,21 +31,15 @@ const Registration = () => {
     } = data;
 
     if (
-      !fullName &&
-      !userName &&
-      !email &&
-      !password &&
-      !phone &&
-      !gender &&
-      !age &&
-      !profileImage
+      fullName &&
+      userName &&
+      email &&
+      password &&
+      phone &&
+      gender &&
+      age &&
+      profileImage
     ) {
-      setIsLoading(false);
-      toast.error("Please provide every information!", {
-        id: toastId,
-        duration: 1500,
-      });
-    } else {
       // send profile image to cloudinary and get the hosted url
       const imageUrl = await sendImageToCloudinary(profileImage.file);
 
@@ -83,6 +77,12 @@ const Registration = () => {
           duration: 1000,
         });
       }
+    } else {
+      setIsLoading(false);
+      toast.error("Please provide every information!", {
+        id: toastId,
+        duration: 1500,
+      });
     }
   };
 
