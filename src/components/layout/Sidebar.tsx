@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Tooltip } from "antd";
 const { Sider } = Layout;
 import {
   AppstoreOutlined,
@@ -6,35 +6,47 @@ import {
   DollarOutlined,
   DeleteOutlined,
   SyncOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 
 const items = [
   {
-    key: 1,
+    key: "1",
     icon: <AppstoreOutlined />,
-    label: <NavLink to={"/inventory"}>Inventory</NavLink>,
+    label: "Inventory",
+    link: "/inventory",
   },
   {
-    key: 2,
+    key: "2",
     icon: <PlusOutlined />,
-    label: <NavLink to={"/create-product"}>Add New Product</NavLink>,
+    label: "Add New Product",
+    link: "/create-product",
   },
   {
-    key: 3,
+    key: "3",
+    icon: <CopyOutlined />,
+    label: "Duplicate Product",
+    link: "/duplicate-product",
+  },
+  {
+    key: "4",
     icon: <SyncOutlined />,
     label: "Update Products",
+    link: "/create-product",
   },
   {
-    key: 4,
+    key: "5",
     icon: <DeleteOutlined />,
     label: "Delete Products",
+    link: "/create-product",
   },
   {
-    key: 5,
+    key: "6",
     icon: <DollarOutlined />,
     label: "Sales History",
+    link: "/create-product",
   },
 ];
 
@@ -47,11 +59,15 @@ const Sidebar = () => {
   const pathToKey: Record<string, string> = {
     "/inventory": "1",
     "/create-product": "2",
+    "/duplicate-product": "3",
     // Add more mappings as needed
   };
 
   // Determine the selected key based on the current route
   const selectedKey = pathToKey[currentRoute] || "1";
+
+  const isDuplicateProductEnabled =
+    currentRoute === "/duplicate-product" && location.state;
 
   return (
     <>
@@ -103,12 +119,29 @@ const Sidebar = () => {
 
           <h2 style={{ color: "#f5f6fa" }}>{userName}</h2>
         </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={[selectedKey]}
-          items={items}
-        />
+        <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
+          {items.map((item) => (
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+              disabled={
+                !isDuplicateProductEnabled && item.link === "/duplicate-product"
+              }
+            >
+              {!isDuplicateProductEnabled &&
+              item.link === "/duplicate-product" ? (
+                <Tooltip
+                  placement="right"
+                  title={"Select product from product list!"}
+                >
+                  Duplicate Product
+                </Tooltip>
+              ) : (
+                <NavLink to={item.link}>{item.label}</NavLink>
+              )}
+            </Menu.Item>
+          ))}
+        </Menu>
       </Sider>
     </>
   );
