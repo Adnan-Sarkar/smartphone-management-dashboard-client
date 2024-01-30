@@ -11,24 +11,49 @@ const ProductDetailsModal = ({
   handleCancel: () => void;
 }) => {
   const dataSource = [
-    { topic: "Price", description: product.price },
-    { topic: "Quantity", description: product.quantity },
-    { topic: "Brand", description: product.brand },
-    { topic: "Model", description: product.model },
-    { topic: "Release Date", description: product.releaseDate },
-    { topic: "Operating System", description: product.operatingSystem },
-    { topic: "Battery", description: product.battery },
-    { topic: "Front Camera", description: product.camera.front },
-    { topic: "Back Camera", description: product.camera.back },
-    { topic: "Processor Type", description: product.processor.type },
-    { topic: "Processor Speed", description: product.processor.speed },
-    { topic: "RAM", description: product.storage.RAM },
-    { topic: "ROM", description: product.storage.ROM },
+    { topic: "Price", description: product.price, key: "Price" },
+    { topic: "Quantity", description: product.quantity, key: "Quantity" },
+    { topic: "Brand", description: product.brand, key: "Brand" },
+    { topic: "Model", description: product.model, key: "Model" },
+    {
+      topic: "Release Date",
+      description: product.releaseDate,
+      key: "Release Date",
+    },
+    {
+      topic: "Operating System",
+      description: product.operatingSystem,
+      key: "Operating System",
+    },
+    { topic: "Battery", description: product.battery, key: "Battery" },
+    {
+      topic: "Front Camera",
+      description: product.camera.front,
+      key: "Front Camera",
+    },
+    {
+      topic: "Back Camera",
+      description: product.camera.back,
+      key: "Back Camera",
+    },
+    {
+      topic: "Processor Type",
+      description: product.processor.type,
+      key: "Processor Type",
+    },
+    {
+      topic: "Processor Speed",
+      description: product.processor.speed,
+      key: "Processor Speed",
+    },
+    { topic: "RAM", description: product.storage.RAM, key: "RAM" },
+    { topic: "ROM", description: product.storage.ROM, key: "ROM" },
     {
       topic: "Rating",
       description: <Rate disabled defaultValue={product.rating} />,
+      key: "Rating",
     },
-    { topic: "Details", description: product.details },
+    { topic: "Details", description: product.details, key: "Details" },
   ];
 
   const columns = [
