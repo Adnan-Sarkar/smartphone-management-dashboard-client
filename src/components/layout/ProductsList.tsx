@@ -1,4 +1,4 @@
-import { Layout, Row } from "antd";
+import { Layout } from "antd";
 import ProductListFilter from "./ProductListFilter";
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
@@ -64,11 +64,18 @@ const ProductsList = () => {
           handleCancel={handleCancel}
         />
       )}
-      <Content style={{ padding: "10px", overflow: "hidden" }}>
+      <Content style={{ padding: "10px" }}>
         <ProductListFilter />
-        <Row justify={"center"}>
-          <Row gutter={[16, 30]}>{content}</Row>
-        </Row>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "start",
+            gap: "30px",
+          }}
+        >
+          {content}
+        </div>
       </Content>
     </>
   );
