@@ -40,7 +40,7 @@ const items = [
     key: "5",
     icon: <DeleteOutlined />,
     label: "Delete Products",
-    link: "/create-product",
+    link: "/delete-products",
   },
   {
     key: "6",
@@ -60,6 +60,7 @@ const Sidebar = () => {
     "/inventory": "1",
     "/create-product": "2",
     "/duplicate-product": "3",
+    "/delete-products": "5",
     // Add more mappings as needed
   };
 
