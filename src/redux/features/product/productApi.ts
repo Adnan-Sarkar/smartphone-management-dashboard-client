@@ -16,7 +16,19 @@ const productApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    deleteProducts: builder.mutation({
+      query: (idList) => ({
+        url: `/products`,
+        method: "DELETE",
+        body: idList,
+      }),
+    }),
   }),
 });
 
-export const { useCreateProductMutation, useGetProductsQuery } = productApi;
+export const {
+  useCreateProductMutation,
+  useGetProductsQuery,
+  useDeleteProductsMutation,
+} = productApi;

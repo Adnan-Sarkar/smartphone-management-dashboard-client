@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Button, Table, TableColumnsType } from "antd";
 import DynamicHeader from "./DynamicHeader";
-import { useGetProductsQuery } from "../../redux/features/product/productApi";
+import {
+  useDeleteProductsMutation,
+  useGetProductsQuery,
+} from "../../redux/features/product/productApi";
 import { TProduct } from "../../types/product.types";
+import toast from "react-hot-toast";
 
 interface DataType {
   key: React.Key;
@@ -56,6 +60,7 @@ const DeleteProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
   const { data, isLoading } = useGetProductsQuery("");
+  const [deleteProductsFromDB] = useDeleteProductsMutation();
 
   let products = [];
   if (!isLoading && data) {
@@ -72,13 +77,31 @@ const DeleteProducts = () => {
     });
   }
 
-  const start = () => {
+  const deleteProducts = async () => {
     setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
+    const toastId = toast.loading("Deleting...");
+
+    try {
+      const response = await deleteProductsFromDB({
+        idList: selectedRowKeys,
+      }).unwrap();
+
+      console.log(response);
+      if (response?.statusCode !== 200) {
+        throw new Error(response.data.message);
+      }
       setLoading(false);
-    }, 1000);
+      toast.success("Products deleted Successfully", {
+        id: toastId,
+        duration: 1000,
+      });
+    } catch (err) {
+      setLoading(false);
+      toast.error("Something Went Wrong!", {
+        id: toastId,
+        duration: 1500,
+      });
+    }
   };
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -100,7 +123,7 @@ const DeleteProducts = () => {
           <Button
             type="primary"
             size="large"
-            onClick={start}
+            onClick={deleteProducts}
             disabled={!hasSelected}
             loading={loading}
             danger
