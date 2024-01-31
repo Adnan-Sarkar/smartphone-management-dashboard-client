@@ -35,6 +35,14 @@ const productApi = baseApi.injectEndpoints({
         body: idList,
       }),
     }),
+
+    sellProduct: builder.mutation({
+      query: (sellInfo) => ({
+        url: `/sales/sell`,
+        method: "POST",
+        body: sellInfo,
+      }),
+    }),
   }),
 });
 
@@ -43,4 +51,5 @@ export const {
   useGetProductsQuery,
   useUpdateProductMutation,
   useDeleteProductsMutation,
+  useSellProductMutation,
 } = productApi;
