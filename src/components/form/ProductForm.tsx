@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import sendImageToCloudinary from "../../utils/sendImageToCloudinary";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import DynamicHeader from "../layout/DynamicHeader";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -45,6 +46,7 @@ const defaultValues = {
 const ProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [createProduct] = useCreateProductMutation();
+  const navigate = useNavigate();
   const { handleSubmit, control } = useForm({
     defaultValues,
   });
@@ -123,8 +125,6 @@ const ProductForm = () => {
           throw new Error(response.data.message);
         }
 
-        // dispatch(addProducts());
-
         // check registration is successfull or not
         if (response?.statusCode !== 201) {
           throw new Error(response.data.message);
@@ -136,6 +136,8 @@ const ProductForm = () => {
           id: toastId,
           duration: 1000,
         });
+
+        navigate("/inventory");
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
