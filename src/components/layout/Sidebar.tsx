@@ -34,7 +34,7 @@ const items = [
     key: "4",
     icon: <SyncOutlined />,
     label: "Update Products",
-    link: "/create-product",
+    link: "/update-products",
   },
   {
     key: "5",
@@ -60,6 +60,7 @@ const Sidebar = () => {
     "/inventory": "1",
     "/create-product": "2",
     "/duplicate-product": "3",
+    "/update-products": "4",
     "/delete-products": "5",
     // Add more mappings as needed
   };
