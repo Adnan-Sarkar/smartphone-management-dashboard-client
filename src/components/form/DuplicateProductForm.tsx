@@ -19,6 +19,7 @@ import sendImageToCloudinary from "../../utils/sendImageToCloudinary";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import DynamicHeader from "../layout/DynamicHeader";
 import { useLocation, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -45,7 +46,9 @@ const DuplicateProductForm = () => {
         productImage: undefined,
         quantity: product.quantity,
         rating: product.rating,
-        releaseDate: undefined,
+        releaseDate: dayjs(product.releaseDate, {
+          format: "YYYY-MM-DD",
+        }),
         screenSize: product.screenSize,
         storage: { ...product.storage },
         weight: product.weight,
@@ -162,6 +165,9 @@ const DuplicateProductForm = () => {
     }
   };
 
+  // custom date format
+  const dateFormat = "YYYY-MM-DD";
+
   return (
     <>
       <>
@@ -213,7 +219,11 @@ const DuplicateProductForm = () => {
                     name="releaseDate"
                     control={control}
                     render={({ field }) => (
-                      <DatePicker {...field} style={{ width: "100%" }} />
+                      <DatePicker
+                        {...field}
+                        style={{ width: "100%" }}
+                        format={dateFormat}
+                      />
                     )}
                   />
                 </Form.Item>
