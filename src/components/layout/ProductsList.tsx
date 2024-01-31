@@ -8,22 +8,35 @@ import LoadingProductCard from "./LoadingProductCard";
 import { TProduct } from "../../types/product.types";
 import { useAppDispatch } from "../../redux/hooks";
 import { addProducts } from "../../redux/features/product/productSlice";
+import ProductSellModal from "./ProductSellModal";
 
 const { Content } = Layout;
 
 const ProductsList = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
+    useState(false);
+  const [isProductSellModalOpen, setIsProductSellModalOpen] = useState(false);
+  const [producId, setProductId] = useState("");
   const [product, setProduct] = useState<TProduct>();
   const { data, isLoading } = useGetProductsQuery("");
   const dispatch = useAppDispatch();
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleProductDetailsModalCancel = () => {
+    setIsProductDetailsModalOpen(false);
+  };
+
+  const handleProductSellModalCancel = () => {
+    setIsProductSellModalOpen(false);
   };
 
   const handleDetailsClick = (product: TProduct) => {
     setProduct(product);
-    setIsModalOpen(true);
+    setIsProductDetailsModalOpen(true);
+  };
+
+  const handleSellClick = (id: string) => {
+    setProductId(id);
+    setIsProductSellModalOpen(true);
   };
 
   useEffect(() => {
@@ -50,6 +63,7 @@ const ProductsList = () => {
       <ProductCard
         product={product}
         handleDetailsClick={() => handleDetailsClick(product)}
+        handleSellClick={() => handleSellClick(product._id)}
         key={product._id}
       />
     ));
@@ -57,11 +71,18 @@ const ProductsList = () => {
 
   return (
     <>
-      {isModalOpen && (
+      {isProductDetailsModalOpen && (
         <ProductDetailsModal
           product={product as TProduct}
-          isOpen={isModalOpen}
-          handleCancel={handleCancel}
+          isOpen={isProductDetailsModalOpen}
+          handleCancel={handleProductDetailsModalCancel}
+        />
+      )}
+      {isProductSellModalOpen && (
+        <ProductSellModal
+          isOpen={isProductSellModalOpen}
+          handleCancel={handleProductSellModalCancel}
+          productId={producId}
         />
       )}
       <Content style={{ padding: "10px" }}>

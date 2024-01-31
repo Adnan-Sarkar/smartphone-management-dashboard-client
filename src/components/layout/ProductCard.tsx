@@ -6,16 +6,13 @@ import { useNavigate } from "react-router-dom";
 const ProductCard = ({
   product,
   handleDetailsClick,
+  handleSellClick,
 }: {
   product: TProduct;
   handleDetailsClick: () => void;
+  handleSellClick: () => void;
 }) => {
   const navigate = useNavigate();
-
-  const handleSellClick = () => {
-    // Handle the "Sell" button click
-    console.log("Sell button clicked");
-  };
 
   const handleDuplicateClick = () => {
     navigate("/duplicate-product", {
