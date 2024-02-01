@@ -13,6 +13,7 @@ import {
   persistReducer,
   persistStore,
 } from "redux-persist";
+import modalReducer from "./features/modal/modalSlice";
 
 const persistConfig = {
   key: "auth",
@@ -25,6 +26,7 @@ const store = configureStore({
   reducer: {
     user: persistedAuthReducer,
     products: productReducer,
+    modal: modalReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -15,16 +15,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import { useSellProductMutation } from "../../redux/features/product/productApi";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { modalClose } from "../../redux/features/modal/modalSlice";
 
-const SellProductForm = ({
-  productId,
-  handleCancel,
-}: {
-  productId: string;
-  handleCancel: () => void;
-}) => {
+const SellProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sellProduct] = useSellProductMutation();
+  const productId = useAppSelector((state) => state.modal.productId);
+  const dispatch = useAppDispatch();
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -63,7 +61,7 @@ const SellProductForm = ({
           duration: 1000,
         });
 
-        handleCancel();
+        dispatch(modalClose());
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {

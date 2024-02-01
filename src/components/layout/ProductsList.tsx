@@ -1,43 +1,22 @@
 import { Layout } from "antd";
 import ProductListFilter from "./ProductListFilter";
 import ProductCard from "./ProductCard";
-import { useEffect, useState } from "react";
-import ProductDetailsModal from "./ProductDetailsModal";
+import { useEffect } from "react";
 import { useGetProductsQuery } from "../../redux/features/product/productApi";
 import LoadingProductCard from "./LoadingProductCard";
 import { TProduct } from "../../types/product.types";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addProducts } from "../../redux/features/product/productSlice";
-import ProductSellModal from "./ProductSellModal";
+import CommonModal from "./CommonModal";
+import ProductDetails from "./ProductDetails";
+import SellProductForm from "../form/SellProductForm";
 
 const { Content } = Layout;
 
 const ProductsList = () => {
-  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
-    useState(false);
-  const [isProductSellModalOpen, setIsProductSellModalOpen] = useState(false);
-  const [producId, setProductId] = useState("");
-  const [product, setProduct] = useState<TProduct>();
   const { data, isLoading } = useGetProductsQuery("");
+  const modalFor = useAppSelector((state) => state.modal.modalFor);
   const dispatch = useAppDispatch();
-
-  const handleProductDetailsModalCancel = () => {
-    setIsProductDetailsModalOpen(false);
-  };
-
-  const handleProductSellModalCancel = () => {
-    setIsProductSellModalOpen(false);
-  };
-
-  const handleDetailsClick = (product: TProduct) => {
-    setProduct(product);
-    setIsProductDetailsModalOpen(true);
-  };
-
-  const handleSellClick = (id: string) => {
-    setProductId(id);
-    setIsProductSellModalOpen(true);
-  };
 
   useEffect(() => {
     if (!isLoading && data?.data) {
@@ -60,30 +39,21 @@ const ProductsList = () => {
 
   if (!isLoading && data?.data) {
     content = data?.data.map((product: TProduct) => (
-      <ProductCard
-        product={product}
-        handleDetailsClick={() => handleDetailsClick(product)}
-        handleSellClick={() => handleSellClick(product._id)}
-        key={product._id}
-      />
+      <ProductCard product={product} key={product._id} />
     ));
   }
 
   return (
     <>
-      {isProductDetailsModalOpen && (
-        <ProductDetailsModal
-          product={product as TProduct}
-          isOpen={isProductDetailsModalOpen}
-          handleCancel={handleProductDetailsModalCancel}
-        />
+      {modalFor && modalFor === "productDetails" && (
+        <CommonModal>
+          <ProductDetails />
+        </CommonModal>
       )}
-      {isProductSellModalOpen && (
-        <ProductSellModal
-          isOpen={isProductSellModalOpen}
-          handleCancel={handleProductSellModalCancel}
-          productId={producId}
-        />
+      {modalFor && modalFor === "productSell" && (
+        <CommonModal>
+          <SellProductForm />
+        </CommonModal>
       )}
       <Content style={{ padding: "10px" }}>
         <ProductListFilter />

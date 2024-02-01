@@ -2,16 +2,11 @@ import { Card, Col, Rate, Row, Space } from "antd";
 import { CopyOutlined, DollarOutlined, EyeOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/product.types";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { modalOpen } from "../../redux/features/modal/modalSlice";
 
-const ProductCard = ({
-  product,
-  handleDetailsClick,
-  handleSellClick,
-}: {
-  product: TProduct;
-  handleDetailsClick: () => void;
-  handleSellClick: () => void;
-}) => {
+const ProductCard = ({ product }: { product: TProduct }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleDuplicateClick = () => {
@@ -20,6 +15,24 @@ const ProductCard = ({
         productInfo: product,
       },
     });
+  };
+
+  const handleProductDetails = () => {
+    dispatch(
+      modalOpen({
+        productId: product._id,
+        modalFor: "productDetails",
+      })
+    );
+  };
+
+  const handleProductSell = () => {
+    dispatch(
+      modalOpen({
+        productId: product._id,
+        modalFor: "productSell",
+      })
+    );
   };
 
   return (
@@ -35,13 +48,13 @@ const ProductCard = ({
         </div>
       }
       actions={[
-        <div key="Details" onClick={handleDetailsClick}>
+        <div key="Details" onClick={handleProductDetails}>
           <Space direction="horizontal">
             <EyeOutlined />
             Details
           </Space>
         </div>,
-        <div key="Sell" onClick={handleSellClick}>
+        <div key="Sell" onClick={handleProductSell}>
           <Space direction="horizontal">
             <DollarOutlined />
             Sell
