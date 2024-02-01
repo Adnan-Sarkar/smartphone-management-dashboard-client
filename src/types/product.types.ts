@@ -43,3 +43,27 @@ export type TProductState = {
   products: TProduct[];
   totalProducts: number;
 };
+
+export type TSales = {
+  productImage: string;
+  productName: string;
+  buyerName: string;
+  quantity: number;
+  totalPrice: number;
+  sellDate: string;
+};
+
+export type TSaleProduct = {
+  productId: string;
+  quantity: number;
+  buyerName: string;
+  saleDate: string;
+  _id: string;
+  product: [
+    {
+      productImage: string;
+      name: string;
+      price: number;
+    }
+  ];
+};
