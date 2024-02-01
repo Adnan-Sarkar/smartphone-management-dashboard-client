@@ -46,7 +46,7 @@ const SellProductForm = () => {
           productId,
           quantity,
           buyerName,
-          saleDate,
+          saleDate: `${saleDate.$y}-${saleDate.$M + 1}-${saleDate.$D}`,
         }).unwrap();
 
         // Handle the sale success or error
