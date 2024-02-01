@@ -50,6 +50,13 @@ const productApi = baseApi.injectEndpoints({
         body: sellInfo,
       }),
     }),
+
+    sellsHistory: builder.query({
+      query: (historyType) => ({
+        url: `/sales?historyType=${historyType}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useUpdateProductMutation,
   useDeleteProductsMutation,
   useSellProductMutation,
+  useSellsHistoryQuery,
 } = productApi;
