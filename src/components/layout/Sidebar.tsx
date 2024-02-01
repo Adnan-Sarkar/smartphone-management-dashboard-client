@@ -46,7 +46,7 @@ const items = [
     key: "6",
     icon: <DollarOutlined />,
     label: "Sales History",
-    link: "/create-product",
+    link: "/sales-history",
   },
 ];
 
@@ -62,7 +62,7 @@ const Sidebar = () => {
     "/duplicate-product": "3",
     "/update-products": "4",
     "/delete-products": "5",
-    // Add more mappings as needed
+    "/sales-history": "6",
   };
 
   // Determine the selected key based on the current route

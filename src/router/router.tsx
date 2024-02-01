@@ -8,6 +8,7 @@ import ProductForm from "../components/form/ProductForm";
 import DuplicateProductForm from "../components/form/DuplicateProductForm";
 import DeleteProducts from "../components/layout/DeleteProducts";
 import UpdateProducts from "../components/layout/UpdateProducts";
+import SalesHistory from "../components/layout/SalesHistory";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,16 @@ const router = createBrowserRouter([
       <ProtechtedRoute>
         <MainLayout>
           <DeleteProducts />
+        </MainLayout>
+      </ProtechtedRoute>
+    ),
+  },
+  {
+    path: "/sales-history",
+    element: (
+      <ProtechtedRoute>
+        <MainLayout>
+          <SalesHistory />
         </MainLayout>
       </ProtechtedRoute>
     ),
