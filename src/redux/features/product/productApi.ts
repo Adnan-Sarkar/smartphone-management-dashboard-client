@@ -8,6 +8,7 @@ const productApi = baseApi.injectEndpoints({
         method: "POST",
         body: productInfo,
       }),
+      invalidatesTags: ["products"],
     }),
 
     getProductById: builder.query({
@@ -22,6 +23,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/products`,
         method: "GET",
       }),
+      providesTags: ["products"],
     }),
 
     updateProduct: builder.mutation({
@@ -33,6 +35,7 @@ const productApi = baseApi.injectEndpoints({
           body: updatedInfo,
         };
       },
+      invalidatesTags: ["products"],
     }),
 
     deleteProducts: builder.mutation({
@@ -41,6 +44,7 @@ const productApi = baseApi.injectEndpoints({
         method: "DELETE",
         body: idList,
       }),
+      invalidatesTags: ["products"],
     }),
 
     sellProduct: builder.mutation({
@@ -49,6 +53,7 @@ const productApi = baseApi.injectEndpoints({
         method: "POST",
         body: sellInfo,
       }),
+      invalidatesTags: ["products", "salesHistory"],
     }),
 
     sellsHistory: builder.query({
@@ -56,6 +61,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/sales?historyType=${historyType}`,
         method: "GET",
       }),
+      providesTags: ["salesHistory"],
     }),
   }),
 });
