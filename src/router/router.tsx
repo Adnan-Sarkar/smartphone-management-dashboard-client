@@ -13,6 +13,16 @@ import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: (
+      <ProtechtedRoute>
+        <MainLayout>
+          <Inventory />
+        </MainLayout>
+      </ProtechtedRoute>
+    ),
+  },
+  {
     path: "/inventory",
     element: (
       <ProtechtedRoute>
@@ -21,7 +31,6 @@ const router = createBrowserRouter([
         </MainLayout>
       </ProtechtedRoute>
     ),
-    index: true,
   },
   {
     path: "/create-product",
