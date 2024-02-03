@@ -14,6 +14,7 @@ import {
   persistStore,
 } from "redux-persist";
 import modalReducer from "./features/modal/modalSlice";
+import filterReducer from "./features/filter/filterSlice";
 
 const persistConfig = {
   key: "auth",
@@ -27,6 +28,7 @@ const store = configureStore({
     user: persistedAuthReducer,
     products: productReducer,
     modal: modalReducer,
+    filter: filterReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TProductState } from "../../../types/product.types";
 
-// initial state for user
+// initial state for product
 const initialState: TProductState = {
   products: [],
   totalProducts: 0,
 };
 
-// create slice for user
+// create slice for product
 const productSlice = createSlice({
   name: "product",
   initialState,
