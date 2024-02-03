@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Empty, Layout } from "antd";
 import ProductListFilter from "./ProductListFilter";
 import ProductCard from "./ProductCard";
 import { useEffect } from "react";
@@ -14,9 +14,10 @@ import SellProductForm from "../form/SellProductForm";
 const { Content } = Layout;
 
 const ProductsList = () => {
-  const { data, isLoading } = useGetProductsQuery("");
-  const modalFor = useAppSelector((state) => state.modal.modalFor);
+  const { modalFor } = useAppSelector((state) => state.modal);
+  const { productFilterQuery } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
+  const { data, isLoading } = useGetProductsQuery(productFilterQuery);
 
   useEffect(() => {
     if (!isLoading && data?.data) {
@@ -37,7 +38,7 @@ const ProductsList = () => {
     ];
   }
 
-  if (!isLoading && data?.data) {
+  if (!isLoading && data?.data?.length > 0) {
     content = data?.data.map((product: TProduct) => (
       <ProductCard product={product} key={product._id} />
     ));
@@ -57,6 +58,14 @@ const ProductsList = () => {
       )}
       <Content style={{ padding: "10px" }}>
         <ProductListFilter />
+        {!isLoading && data?.data?.length === 0 ? (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>No Products Found!</span>}
+          />
+        ) : (
+          ""
+        )}
         <div
           style={{
             display: "flex",
