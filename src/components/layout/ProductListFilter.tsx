@@ -4,13 +4,23 @@ import { Button, Col, Divider, Drawer, Layout, Row } from "antd";
 import FilterSidebar from "./FilterSidebar";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
+import { useAppDispatch } from "../../redux/hooks";
+import { addProductFilterQuery } from "../../redux/features/filter/filterSlice";
 
 const ProductListFilter = () => {
   const { control, handleSubmit } = useForm();
+  const dispatch = useAppDispatch();
+
+  const handleSearch = (searchValue: string) => {
+    dispatch(addProductFilterQuery(`name=${searchValue}`));
+  };
 
   const onSubmit = (data: FieldValues) => {
-    // Handle the form submission here
-    console.log("Search value:", data);
+    handleSearch(data.search);
+  };
+
+  const onSearch = (searchValue: string) => {
+    handleSearch(searchValue);
   };
 
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -39,6 +49,7 @@ const ProductListFilter = () => {
                   allowClear
                   enterButton="Search"
                   size="large"
+                  onSearch={onSearch}
                 />
               )}
             />
