@@ -9,6 +9,7 @@ import DuplicateProductForm from "../components/form/DuplicateProductForm";
 import DeleteProducts from "../components/layout/DeleteProducts";
 import UpdateProducts from "../components/layout/UpdateProducts";
 import SalesHistory from "../components/layout/SalesHistory";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
         </MainLayout>
       </ProtechtedRoute>
     ),
+    index: true,
   },
   {
     path: "/create-product",
@@ -78,6 +80,10 @@ const router = createBrowserRouter([
   {
     path: "/registration",
     element: <Registration />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
