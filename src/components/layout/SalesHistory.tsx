@@ -4,18 +4,9 @@ import DynamicHeader from "./DynamicHeader";
 import { Layout } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { TColumn, TRowSaleData, TSaleData } from "../../types/product.types";
+import { TSalesTableData } from "../../types/product.types";
 import { v4 as uuidv4 } from "uuid";
 const { Content } = Layout;
-
-interface ExpandedDataType {
-  productImage: string;
-  productName: string;
-  buyerName: string;
-  quantity: number;
-  totalPrice: number;
-  saleDate: string;
-}
 
 const options = [
   { value: "daily", label: <span>Daily Sales History</span> },
@@ -28,24 +19,24 @@ const SalesHistory = () => {
   const [slaesHistoryType, setSlaesHistoryType] = useState("daily");
   const { data, isLoading, isFetching } =
     useSellsHistoryQuery(slaesHistoryType);
-  const [salesInfo, setSalesInfo] = useState<TColumn[]>();
+  const [salesInfo, setSalesInfo] = useState<TSalesTableData[]>();
 
   useEffect(() => {
     if (data && !isLoading && !isFetching) {
-      const salesinfoArr = data.data.map((sale: TSaleData) => {
+      const salesinfoArr = data.data.map((sale: TSalesTableData) => {
         let formattedDate;
 
-        if (slaesHistoryType === "daily") {
+        if (slaesHistoryType === "daily" && sale._id) {
           formattedDate = dayjs(
             `${sale._id.year}-${sale._id.month}-${sale._id.day}`
           ).format("dddd, MMMM D, YYYY");
-        } else if (slaesHistoryType === "weekly") {
+        } else if (slaesHistoryType === "weekly" && sale._id) {
           formattedDate = `Week number: ${sale._id.week}`;
-        } else if (slaesHistoryType === "monthly") {
+        } else if (slaesHistoryType === "monthly" && sale._id) {
           formattedDate = dayjs(`${sale._id.year}-${sale._id.month}`).format(
             "MMMM YYYY"
           );
-        } else if (slaesHistoryType === "yearly") {
+        } else if (slaesHistoryType === "yearly" && sale._id) {
           formattedDate = `Year: ${sale._id.year.toString()}`;
         }
 
@@ -57,12 +48,12 @@ const SalesHistory = () => {
         };
       });
 
-      setSalesInfo(salesinfoArr as TColumn[]);
+      setSalesInfo(salesinfoArr as TSalesTableData[]);
     }
   }, [data, isLoading, slaesHistoryType, isFetching]);
 
-  const expandedRowRender = (record: TSaleData) => {
-    const nestedRowColumns: TableColumnsType<ExpandedDataType> = [
+  const expandedRowRender = (record: TSalesTableData) => {
+    const nestedRowColumns: TableColumnsType<TSalesTableData> = [
       {
         title: "Image",
         dataIndex: "productImage",
@@ -100,20 +91,22 @@ const SalesHistory = () => {
       },
     ];
 
-    const dataSource: TRowSaleData[] = [];
+    const dataSource: TSalesTableData[] = [];
 
-    if (record?.sales?.length > 0) {
-      record?.sales?.forEach((sale) => {
-        dataSource.push({
-          key: uuidv4(),
-          quantity: sale.quantity,
-          buyerName: sale.buyerName,
-          saleDate: sale.saleDate,
-          productImage: sale.product[0].productImage,
-          productName: sale.product[0].name,
-          totalPrice: sale.product[0].price * sale.quantity,
+    if (record?.sales) {
+      if (record?.sales?.length > 0) {
+        record?.sales?.forEach((sale) => {
+          dataSource.push({
+            key: uuidv4(),
+            quantity: sale.quantity,
+            buyerName: sale.buyerName,
+            saleDate: sale.saleDate,
+            productImage: sale.product[0].productImage,
+            productName: sale.product[0].name,
+            totalPrice: sale.product[0].price * sale.quantity,
+          });
         });
-      });
+      }
     }
 
     return (
@@ -126,7 +119,7 @@ const SalesHistory = () => {
   };
 
   // Define the table data
-  const tableData: TColumn[] = [];
+  const tableData: TSalesTableData[] = [];
 
   // Populate tableData based on salesInfo
   if (salesInfo && !isLoading) {
@@ -140,7 +133,7 @@ const SalesHistory = () => {
     });
   }
 
-  const columns: TableColumnsType<TColumn> = [
+  const columns: TableColumnsType<TSalesTableData> = [
     {
       title: `${slaesHistoryType.toUpperCase()} SALES`,
       dataIndex: "week",

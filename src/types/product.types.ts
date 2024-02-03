@@ -44,25 +44,6 @@ export type TProductState = {
   totalProducts: number;
 };
 
-export type TSaleData = {
-  _id: {
-    day: number;
-    week: number;
-    month: number;
-    year: number;
-  };
-  totalSale: number;
-  sales: [
-    {
-      productId: string;
-      quantity: number;
-      buyerName: string;
-      saleDate: string;
-      product: [{ name: string; price: number; productImage: string }];
-    }
-  ];
-};
-
 export type TColumn = {
   key: string | number;
   week: string;
@@ -78,12 +59,29 @@ export type TColumn = {
   ];
 };
 
-export type TRowSaleData = {
-  key: string | number;
-  quantity: number;
-  buyerName: string;
-  saleDate: string;
-  productImage: string;
-  productName: string;
-  totalPrice: number;
+export type TSalesTableData = {
+  key?: string | number;
+  quantity?: number;
+  buyerName?: string;
+  saleDate?: string;
+  productImage?: string;
+  productName?: string;
+  totalPrice?: number;
+  week?: string;
+  totalSale?: number;
+  sales?: [
+    {
+      productId: string;
+      quantity: number;
+      buyerName: string;
+      saleDate: string;
+      product: [{ name: string; price: number; productImage: string }];
+    }
+  ];
+  _id?: {
+    day: number;
+    week: number;
+    month: number;
+    year: number;
+  };
 };
