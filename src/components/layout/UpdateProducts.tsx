@@ -103,7 +103,6 @@ const UpdateProducts = () => {
   }
 
   const handleUpdate = (data: TProduct) => {
-    console.log(data);
     setUpdateProductInfo(data);
     setIsModalOpen(true);
   };
@@ -128,7 +127,7 @@ const UpdateProducts = () => {
           dataSource={products}
           pagination={{
             position: ["bottomCenter"],
-            pageSize: 10,
+            pageSize: 6,
           }}
         />
       </div>

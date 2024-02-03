@@ -30,8 +30,6 @@ const SalesHistory = () => {
     useSellsHistoryQuery(slaesHistoryType);
   const [salesInfo, setSalesInfo] = useState<TColumn[]>();
 
-  console.log({ isLoading });
-
   useEffect(() => {
     if (data && !isLoading && !isFetching) {
       const salesinfoArr = data.data.map((sale: TSaleData) => {
@@ -173,6 +171,10 @@ const SalesHistory = () => {
           expandable={{ expandedRowRender, defaultExpandedRowKeys: ["0"] }}
           dataSource={tableData}
           loading={isLoading && isFetching}
+          pagination={{
+            position: ["bottomCenter"],
+            pageSize: 6,
+          }}
         />
       </Content>
     </>
