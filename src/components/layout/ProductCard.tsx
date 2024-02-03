@@ -31,6 +31,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
       modalOpen({
         productId: product._id,
         modalFor: "productSell",
+        productQuantity: product.quantity,
       })
     );
   };
