@@ -8,12 +8,14 @@ const ProtechtedRoute = ({ children }: { children: ReactNode }) => {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   useEffect(() => {
-    const decode = jwtDecode(token);
+    if (token) {
+      const decode = jwtDecode(token);
 
-    const currentTime = Date.now() / 1000;
+      const currentTime = Date.now() / 1000;
 
-    if (decode.exp && decode.exp < currentTime) {
-      setIsTokenExpired(true);
+      if (decode.exp && decode.exp < currentTime) {
+        setIsTokenExpired(true);
+      }
     }
   }, [token]);
 
