@@ -21,7 +21,7 @@ import { modalClose } from "../../redux/features/modal/modalSlice";
 const SellProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sellProduct] = useSellProductMutation();
-  const productId = useAppSelector((state) => state.modal.productId);
+  const { productId, productQuantity } = useAppSelector((state) => state.modal);
   const dispatch = useAppDispatch();
 
   const { handleSubmit, control } = useForm({
@@ -34,7 +34,6 @@ const SellProductForm = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Selling...");
-    console.log(data);
     setIsLoading(true);
 
     const { quantity, buyerName, saleDate } = data;
@@ -66,10 +65,18 @@ const SellProductForm = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setIsLoading(false);
-        toast.error(err.message, {
-          id: toastId,
-          duration: 1000,
-        });
+
+        if (err?.status) {
+          toast.error(err.data.message, {
+            id: toastId,
+            duration: 1000,
+          });
+        } else {
+          toast.error(err.message, {
+            id: toastId,
+            duration: 1000,
+          });
+        }
       }
     } else {
       toast.error("Please Provide Every Information!", {
@@ -105,7 +112,12 @@ const SellProductForm = () => {
                 name="quantity"
                 control={control}
                 render={({ field }) => (
-                  <InputNumber {...field} style={{ width: "100%" }} min={1} />
+                  <InputNumber
+                    {...field}
+                    style={{ width: "100%" }}
+                    min={1}
+                    max={productQuantity}
+                  />
                 )}
               />
             </Form.Item>
