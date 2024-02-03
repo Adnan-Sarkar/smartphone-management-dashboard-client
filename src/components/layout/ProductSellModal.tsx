@@ -2,7 +2,6 @@ import { Modal } from "antd";
 import SellProductForm from "../form/SellProductForm";
 
 const ProductSellModal = ({
-  productId,
   isOpen,
   handleCancel,
 }: {
@@ -14,7 +13,7 @@ const ProductSellModal = ({
     return (
       <>
         <Modal open={isOpen} onCancel={handleCancel} onOk={handleCancel}>
-          <SellProductForm productId={productId} handleCancel={handleCancel} />
+          <SellProductForm />
         </Modal>
       </>
     );
