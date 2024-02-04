@@ -139,7 +139,7 @@ npm run dev
 
 <br><br>
 
-Thank you for exploring the `Smartphone Management Dashboard Server` backend application! Feel free to provide feedback, report issues.
+Thank you for exploring the `Smartphone Management Dashboard Client` application! Feel free to provide feedback, report issues.
 
 ## 📢 Social Links
 
