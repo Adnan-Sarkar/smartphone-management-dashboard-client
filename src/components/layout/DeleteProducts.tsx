@@ -3,7 +3,7 @@ import { Button, Table, TableColumnsType } from "antd";
 import DynamicHeader from "./DynamicHeader";
 import {
   useDeleteProductsMutation,
-  useGetProductsQuery,
+  useGetAllProductsQuery,
 } from "../../redux/features/product/productApi";
 import { TProduct } from "../../types/product.types";
 import toast from "react-hot-toast";
@@ -59,7 +59,7 @@ const columns: TableColumnsType<DataType> = [
 const DeleteProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
-  const { data, isLoading } = useGetProductsQuery("");
+  const { data, isLoading } = useGetAllProductsQuery("");
   const [deleteProductsFromDB] = useDeleteProductsMutation();
 
   let products = [];
@@ -140,8 +140,9 @@ const DeleteProducts = () => {
           dataSource={products}
           pagination={{
             position: ["bottomCenter"],
-            pageSize: 10,
+            pageSize: 6,
           }}
+          loading={isLoading}
         />
       </div>
     </>
