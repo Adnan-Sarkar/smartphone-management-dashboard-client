@@ -75,7 +75,9 @@ export type TSalesTableData = {
       quantity: number;
       buyerName: string;
       saleDate: string;
-      product: [{ name: string; price: number; productImage: string }];
+      productName: string;
+      productImage: string;
+      productPrice: number;
     }
   ];
   _id?: {

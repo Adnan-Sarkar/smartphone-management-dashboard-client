@@ -101,9 +101,9 @@ const SalesHistory = () => {
             quantity: sale.quantity,
             buyerName: sale.buyerName,
             saleDate: sale.saleDate,
-            productImage: sale.product[0].productImage,
-            productName: sale.product[0].name,
-            totalPrice: sale.product[0].price * sale.quantity,
+            productImage: sale.productImage,
+            productName: sale.productName,
+            totalPrice: sale.productPrice * sale.quantity,
           });
         });
       }
@@ -166,7 +166,7 @@ const SalesHistory = () => {
           loading={isLoading && isFetching}
           pagination={{
             position: ["bottomCenter"],
-            pageSize: 6,
+            pageSize: 12,
           }}
         />
       </Content>
