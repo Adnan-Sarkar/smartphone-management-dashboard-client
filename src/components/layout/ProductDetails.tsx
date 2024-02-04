@@ -62,7 +62,9 @@ const ProductDetails = () => {
         { topic: "ROM", description: product.storage.ROM, key: "ROM" },
         {
           topic: "Rating",
-          description: <Rate disabled defaultValue={product.rating} />,
+          description: (
+            <Rate disabled allowHalf defaultValue={product.rating} />
+          ),
           key: "Rating",
         },
         { topic: "Details", description: product.details, key: "Details" },

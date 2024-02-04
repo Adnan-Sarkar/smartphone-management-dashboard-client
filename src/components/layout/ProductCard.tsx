@@ -70,7 +70,11 @@ const ProductCard = ({ product }: { product: TProduct }) => {
       ]}
     >
       <div>
-        <h2 style={{ marginBottom: "5px" }}>{product.name}</h2>
+        <h2
+          style={{ marginBottom: "5px", height: "70px", textAlign: "center" }}
+        >
+          {product.name}
+        </h2>
         <Row style={{ marginBottom: "5px" }}>
           <Col span={12}>
             <p style={{ fontSize: "16px" }}>Price: {product.price}</p>
@@ -90,7 +94,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
         </Row>
         <Row style={{ marginTop: "10px" }}>
           <Col span={24}>
-            <Rate disabled defaultValue={product.rating} />
+            <Rate disabled defaultValue={product.rating} allowHalf />
           </Col>
         </Row>
       </div>
