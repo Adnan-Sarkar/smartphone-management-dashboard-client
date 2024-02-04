@@ -18,10 +18,10 @@ import {
   addProductFilterQuery,
   removeProductFilterQuery,
 } from "../../redux/features/filter/filterSlice";
+import { StorageSizesArray } from "../../constant/storageSize.constant";
 const { Sider } = Layout;
 
 const { RangePicker } = DatePicker;
-const { Option } = Select;
 
 type TFilter = {
   price: number;
@@ -66,6 +66,7 @@ const FilterSidebar = () => {
     }
   }, [isLoading, data]);
 
+  // handle filter form submit
   const onSubmit = (data: FieldValues) => {
     const {
       price,
@@ -145,6 +146,27 @@ const FilterSidebar = () => {
     setQuery(queryParams);
   };
 
+  // handle filter form reset
+  const resetForm = () => {
+    // create form form default values object
+    const defaultValues: FieldValues = {
+      price: [0, 0],
+      brand: "",
+      frontCamera: "",
+      backCamera: "",
+      model: "",
+      os: "",
+      ram: "",
+      releaseDate: null,
+      screenSize: "",
+      storage: "",
+      rating: -1,
+    };
+
+    // reset the form using react-hook-form
+    control._reset(defaultValues);
+  };
+
   const handleChange = () => {
     handleSubmit(onSubmit)();
   };
@@ -168,6 +190,7 @@ const FilterSidebar = () => {
 
   const handleRemoveFilter = () => {
     setQuery("");
+    resetForm();
     dispatch(removeProductFilterQuery());
   };
 
@@ -262,10 +285,11 @@ const FilterSidebar = () => {
                     style={{ width: 200 }}
                     placeholder="Filter by operating system"
                     {...field}
-                  >
-                    <Option value="android">Android</Option>
-                    <Option value="ios">iOS</Option>
-                  </Select>
+                    options={[
+                      { value: "Android", label: <span>Android</span> },
+                      { value: "iOS", label: <span>iOS</span> },
+                    ]}
+                  />
                 </div>
               )}
             />
@@ -283,18 +307,10 @@ const FilterSidebar = () => {
                   style={{ width: 200 }}
                   placeholder="Filter by storage"
                   {...field}
-                  options={[
-                    { value: "2GB", label: <span>2GB</span> },
-                    { value: "4GB", label: <span>4GB</span> },
-                    { value: "8GB", label: <span>8GB</span> },
-                    { value: "16GB", label: <span>16GB</span> },
-                    { value: "32GB", label: <span>32GB</span> },
-                    { value: "64GB", label: <span>64GB</span> },
-                    { value: "128GB", label: <span>128GB</span> },
-                    { value: "256GB", label: <span>256GB</span> },
-                    { value: "512GB", label: <span>512GB</span> },
-                    { value: "1TB", label: <span>1TB</span> },
-                  ]}
+                  options={StorageSizesArray.map((size) => ({
+                    value: size,
+                    label: <span>{size}</span>,
+                  }))}
                 />
               )}
             />
@@ -312,16 +328,10 @@ const FilterSidebar = () => {
                   style={{ width: 200 }}
                   placeholder="Filter by RAM"
                   {...field}
-                  options={[
-                    { value: "2GB", label: <span>2GB</span> },
-                    { value: "4GB", label: <span>4GB</span> },
-                    { value: "8GB", label: <span>8GB</span> },
-                    { value: "16GB", label: <span>16GB</span> },
-                    { value: "32GB", label: <span>32GB</span> },
-                    { value: "64GB", label: <span>64GB</span> },
-                    { value: "128GB", label: <span>128GB</span> },
-                    { value: "256GB", label: <span>256GB</span> },
-                  ]}
+                  options={StorageSizesArray.map((size) => ({
+                    value: size,
+                    label: <span>{size}</span>,
+                  }))}
                 />
               )}
             />

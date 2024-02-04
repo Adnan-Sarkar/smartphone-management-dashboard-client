@@ -20,8 +20,7 @@ import { useCreateProductMutation } from "../../redux/features/product/productAp
 import DynamicHeader from "../layout/DynamicHeader";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-
-const { Option } = Select;
+import { StorageSizesArray } from "../../constant/storageSize.constant";
 
 const DuplicateProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -255,10 +254,14 @@ const DuplicateProductForm = () => {
                     name="operatingSystem"
                     control={control}
                     render={({ field }) => (
-                      <Select {...field} placeholder="Select Operating System">
-                        <Option value="Android">Android</Option>
-                        <Option value="iOS">iOS</Option>
-                      </Select>
+                      <Select
+                        {...field}
+                        placeholder="Select Operating System"
+                        options={[
+                          { value: "Android", label: <span>Android</span> },
+                          { value: "iOS", label: <span>iOS</span> },
+                        ]}
+                      />
                     )}
                   />
                 </Form.Item>
@@ -329,15 +332,14 @@ const DuplicateProductForm = () => {
                     name="storage.RAM"
                     control={control}
                     render={({ field }) => (
-                      <Select {...field} placeholder="Select RAM">
-                        <Option value="2GB">2GB</Option>
-                        <Option value="4GB">4GB</Option>
-                        <Option value="8GB">8GB</Option>
-                        <Option value="16GB">16GB</Option>
-                        <Option value="32GB">32GB</Option>
-                        <Option value="64GB">64GB</Option>
-                        <Option value="128GB">128GB</Option>
-                      </Select>
+                      <Select
+                        {...field}
+                        placeholder="Select RAM"
+                        options={StorageSizesArray.map((size) => ({
+                          value: size,
+                          label: <span>{size}</span>,
+                        }))}
+                      />
                     )}
                   />
                 </Form.Item>
@@ -348,17 +350,14 @@ const DuplicateProductForm = () => {
                     name="storage.ROM"
                     control={control}
                     render={({ field }) => (
-                      <Select {...field} placeholder="Select ROM">
-                        <Option value="2GB">2GB</Option>
-                        <Option value="4GB">4GB</Option>
-                        <Option value="8GB">8GB</Option>
-                        <Option value="16GB">16GB</Option>
-                        <Option value="32GB">32GB</Option>
-                        <Option value="64GB">64GB</Option>
-                        <Option value="128GB">128GB</Option>
-                        <Option value="512GB">512GB</Option>
-                        <Option value="1TB">1TB</Option>
-                      </Select>
+                      <Select
+                        {...field}
+                        placeholder="Select ROM"
+                        options={StorageSizesArray.map((size) => ({
+                          value: size,
+                          label: <span>{size}</span>,
+                        }))}
+                      />
                     )}
                   />
                 </Form.Item>
