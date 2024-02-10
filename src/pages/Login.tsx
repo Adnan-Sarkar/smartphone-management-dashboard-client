@@ -71,6 +71,7 @@ const Login = () => {
     } else {
       setIsLoading(false);
       toast.error("Please provide every information!", {
+        id: toastId,
         duration: 1000,
       });
     }
