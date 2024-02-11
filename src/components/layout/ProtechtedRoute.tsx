@@ -19,11 +19,11 @@ const ProtechtedRoute = ({ children }: { children: ReactNode }) => {
     }
   }, [token]);
 
-  if (!token || isTokenExpired) {
+  if (token && isTokenExpired) {
+    return children;
+  } else {
     return <Navigate to="/login" replace={true} />;
   }
-
-  return children;
 };
 
 export default ProtechtedRoute;
