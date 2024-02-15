@@ -1,6 +1,6 @@
 import { Button, Space, Table, TableColumnsType } from "antd";
 import DynamicHeader from "./DynamicHeader";
-import { useGetProductsQuery } from "../../redux/features/product/productApi";
+import { useGetAllProductsQuery } from "../../redux/features/product/productApi";
 import { TProduct } from "../../types/product.types";
 import { EditOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -11,7 +11,7 @@ const UpdateProducts = () => {
   const [updateProductInfo, setUpdateProductInfo] = useState<TProduct | null>(
     null
   );
-  const { data, isLoading } = useGetProductsQuery("");
+  const { data, isLoading } = useGetAllProductsQuery("");
 
   const columns: TableColumnsType<TProduct> = [
     {
