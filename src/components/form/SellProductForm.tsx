@@ -105,9 +105,7 @@ const SellProductForm = () => {
         saleProductInfo;
 
       // generate invoice PDF based on sale info
-      generateInvoicePDF(buyerName, saleDate, [
-        { productName, quantity, price },
-      ]);
+      generateInvoicePDF(buyerName, saleDate, productName, quantity, price);
     }
   };
 
