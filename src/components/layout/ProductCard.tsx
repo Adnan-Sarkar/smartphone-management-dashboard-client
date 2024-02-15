@@ -4,6 +4,7 @@ import { TProduct } from "../../types/product.types";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { modalOpen } from "../../redux/features/modal/modalSlice";
+import { userRoles } from "../../constant/userRoles";
 
 const ProductCard = ({ product }: { product: TProduct }) => {
   const { role } = useAppSelector((state) => state.user);
@@ -37,6 +38,48 @@ const ProductCard = ({ product }: { product: TProduct }) => {
     );
   };
 
+  // set role based actions
+  const productDetailsAction = (
+    <div key="Details" onClick={handleProductDetails}>
+      <Space direction="horizontal">
+        <EyeOutlined />
+        Details
+      </Space>
+    </div>
+  );
+
+  const productSellAction = (
+    <div key="Sell" onClick={handleProductSell}>
+      <Space direction="horizontal">
+        <DollarOutlined />
+        Sell
+      </Space>
+    </div>
+  );
+
+  const productDuplicateAction = (
+    <div key="Duplicate" onClick={handleDuplicateClick}>
+      <Space direction="horizontal">
+        <CopyOutlined />
+        Duplicate
+      </Space>
+    </div>
+  );
+
+  const productCardActions = [];
+
+  if (role === userRoles.SUPERADMIN) {
+    productCardActions.push(productDetailsAction);
+    productCardActions.push(productSellAction);
+    productCardActions.push(productDuplicateAction);
+  } else if (role === userRoles.MANAGER) {
+    productCardActions.push(productDetailsAction);
+    productCardActions.push(productDuplicateAction);
+  } else if (role === userRoles.SELLER) {
+    productCardActions.push(productDetailsAction);
+    productCardActions.push(productSellAction);
+  }
+
   return (
     <Card
       style={{ paddingTop: "10px", width: "300px" }}
@@ -49,26 +92,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
           />
         </div>
       }
-      actions={[
-        <div key="Details" onClick={handleProductDetails}>
-          <Space direction="horizontal">
-            <EyeOutlined />
-            Details
-          </Space>
-        </div>,
-        <div key="Sell" onClick={handleProductSell}>
-          <Space direction="horizontal">
-            <DollarOutlined />
-            Sell
-          </Space>
-        </div>,
-        <div key="Duplicate" onClick={handleDuplicateClick}>
-          <Space direction="horizontal">
-            <CopyOutlined />
-            Duplicate
-          </Space>
-        </div>,
-      ]}
+      actions={productCardActions}
     >
       <div>
         <h2
