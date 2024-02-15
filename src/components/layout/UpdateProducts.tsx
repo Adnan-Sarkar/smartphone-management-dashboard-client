@@ -120,7 +120,7 @@ const UpdateProducts = () => {
           product={updateProductInfo}
         />
       )}
-      <DynamicHeader title="Delete Products" />
+      <DynamicHeader title="Update Products" />
       <div style={{ padding: "10px" }}>
         <Table
           columns={columns}
