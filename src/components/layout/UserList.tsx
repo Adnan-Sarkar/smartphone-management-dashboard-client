@@ -138,6 +138,19 @@ const UserList = () => {
     setIsModalOpen(false);
   };
 
+  // set loading
+  let loading = false;
+
+  if (isDeleting && isLoading) {
+    loading = true;
+  }
+  if (isDeleting && !isLoading) {
+    loading = true;
+  }
+  if (!isDeleting && isLoading) {
+    loading = true;
+  }
+
   return (
     <>
       {isModalOpen && (
@@ -151,7 +164,7 @@ const UserList = () => {
       <DynamicHeader title="User List" />
       <div style={{ padding: "10px" }}>
         <Table
-          loading={isDeleting}
+          loading={loading}
           columns={columns}
           dataSource={products}
           pagination={{
