@@ -1,12 +1,14 @@
-import { ReactNode } from "react";
 import { Layout } from "antd";
 import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
-const MainLayout = ({ children }: { children: ReactNode }) => {
+const MainLayout = () => {
   return (
     <Layout style={{ minHeight: "100%" }}>
       <Sidebar />
-      <Layout>{children}</Layout>
+      <Layout>
+        <Outlet />
+      </Layout>
     </Layout>
   );
 };
