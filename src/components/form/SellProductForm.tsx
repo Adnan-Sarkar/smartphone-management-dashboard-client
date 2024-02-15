@@ -10,19 +10,23 @@ import {
   Space,
   Divider,
 } from "antd";
-import { DollarOutlined } from "@ant-design/icons";
+import { DollarOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import { useSellProductMutation } from "../../redux/features/product/productApi";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { modalClose } from "../../redux/features/modal/modalSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { generateInvoicePDF } from "../../utils/generateInvoicePDF";
+import { TSaleProduct } from "../../types/saleProduct.type";
 
 const SellProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaleComplete, setIsSaleComplete] = useState(false);
+  const [saleProductInfo, setSaleProductInfo] = useState<TSaleProduct | null>(
+    null
+  );
   const [sellProduct] = useSellProductMutation();
   const { productId, productQuantity } = useAppSelector((state) => state.modal);
-  const dispatch = useAppDispatch();
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -53,6 +57,14 @@ const SellProductForm = () => {
           throw new Error(response.data.message);
         }
 
+        setSaleProductInfo({
+          buyerName,
+          saleDate: `${saleDate.$y}-${saleDate.$M + 1}-${saleDate.$D}`,
+          quantity,
+          productName: response.data.productName,
+          price: response.data.productPrice,
+        });
+
         setIsLoading(false);
 
         toast.success("Product Sold Successfully", {
@@ -60,7 +72,7 @@ const SellProductForm = () => {
           duration: 1000,
         });
 
-        dispatch(modalClose());
+        setIsSaleComplete(true);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
@@ -83,6 +95,19 @@ const SellProductForm = () => {
         id: toastId,
         duration: 1000,
       });
+    }
+  };
+
+  // handle download invoice pdf
+  const handleDownloadInvoice = () => {
+    if (saleProductInfo) {
+      const { buyerName, saleDate, productName, price, quantity } =
+        saleProductInfo;
+
+      // generate invoice PDF based on sale info
+      generateInvoicePDF(buyerName, saleDate, [
+        { productName, quantity, price },
+      ]);
     }
   };
 
@@ -140,10 +165,10 @@ const SellProductForm = () => {
           </Col>
         </Row>
 
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} style={{ marginTop: "20px" }}>
           <Col span={24}>
             <Form.Item>
-              <Space>
+              <Space direction="horizontal" size={"large"}>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -153,6 +178,11 @@ const SellProductForm = () => {
                 >
                   <DollarOutlined /> Sell Confirm
                 </Button>
+                {isSaleComplete && (
+                  <Button size="large" onClick={handleDownloadInvoice}>
+                    <DownloadOutlined /> Download Invoice
+                  </Button>
+                )}
               </Space>
             </Form.Item>
           </Col>
