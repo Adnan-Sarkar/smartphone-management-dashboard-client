@@ -11,6 +11,7 @@ const initialState: IUser = {
   gender: null,
   age: null,
   profileImage: "",
+  role: "",
   token: "",
 };
 
@@ -29,6 +30,7 @@ const userSlice = createSlice({
         gender,
         age,
         profileImage,
+        role,
         token,
       } = action.payload;
 
@@ -40,6 +42,7 @@ const userSlice = createSlice({
       state.gender = gender;
       state.age = age;
       state.profileImage = profileImage;
+      state.role = role;
       state.token = token;
     },
 
@@ -52,6 +55,7 @@ const userSlice = createSlice({
       state.gender = null;
       state.age = null;
       state.profileImage = "";
+      state.role = "";
       state.token = "";
     },
   },
