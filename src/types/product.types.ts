@@ -67,6 +67,7 @@ export type TSalesTableData = {
   productImage?: string;
   productName?: string;
   totalPrice?: number;
+  price?: number;
   week?: string;
   totalSale?: number;
   sales?: [

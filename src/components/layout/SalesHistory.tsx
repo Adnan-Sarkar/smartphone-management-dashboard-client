@@ -1,11 +1,13 @@
-import { Divider, Select, Table, TableColumnsType } from "antd";
+import { Button, Divider, Select, Space, Table, TableColumnsType } from "antd";
 import { useSellsHistoryQuery } from "../../redux/features/product/productApi";
 import DynamicHeader from "./DynamicHeader";
 import { Layout } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { TSalesTableData } from "../../types/product.types";
+import { DownloadOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
+import { generateInvoicePDF } from "../../utils/generateInvoicePDF";
 const { Content } = Layout;
 
 const options = [
@@ -52,6 +54,18 @@ const SalesHistory = () => {
     }
   }, [data, isLoading, slaesHistoryType, isFetching]);
 
+  // handle download invoice pdf
+  const handleDownloadInvoice = (saleProductInfo: TSalesTableData) => {
+    const { buyerName, saleDate, productName, price, quantity } =
+      saleProductInfo;
+
+    // give type assertion to they are not undefined
+    if (buyerName && saleDate && productName && quantity && price) {
+      // generate invoice PDF based on sale info
+      generateInvoicePDF(buyerName, saleDate, productName, quantity, price);
+    }
+  };
+
   const expandedRowRender = (record: TSalesTableData) => {
     const nestedRowColumns: TableColumnsType<TSalesTableData> = [
       {
@@ -89,6 +103,21 @@ const SalesHistory = () => {
         title: "Total Price",
         dataIndex: "totalPrice",
       },
+      {
+        title: "Invoice Download",
+        dataIndex: "invoice",
+        render: (_, record) => (
+          <Button
+            onClick={() => handleDownloadInvoice(record)}
+            type="text"
+            style={{ background: "#f9ca24" }}
+          >
+            <Space direction="horizontal">
+              <DownloadOutlined /> Download Invoice
+            </Space>
+          </Button>
+        ),
+      },
     ];
 
     const dataSource: TSalesTableData[] = [];
@@ -104,6 +133,7 @@ const SalesHistory = () => {
             productImage: sale.productImage,
             productName: sale.productName,
             totalPrice: sale.productPrice * sale.quantity,
+            price: sale.productPrice,
           });
         });
       }
