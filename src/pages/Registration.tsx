@@ -28,6 +28,7 @@ const Registration = () => {
       gender,
       age,
       profileImage,
+      role,
     } = data;
 
     if (
@@ -38,7 +39,8 @@ const Registration = () => {
       phone &&
       gender &&
       age &&
-      profileImage
+      profileImage &&
+      role
     ) {
       // send profile image to cloudinary and get the hosted url
       const imageUrl = await sendImageToCloudinary(profileImage.file);
@@ -53,6 +55,7 @@ const Registration = () => {
           gender,
           age: Number(age),
           profileImage: imageUrl,
+          role,
         }).unwrap();
 
         // check registration is successfull or not
@@ -173,7 +176,7 @@ const Registration = () => {
 
         <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 8]}>
           <Col span={12}>
-            <Form.Item label="Password" name="gender">
+            <Form.Item label="Gender" name="gender">
               <Controller
                 name="gender"
                 control={control}
@@ -187,6 +190,23 @@ const Registration = () => {
             </Form.Item>
           </Col>
           <Col span={12}>
+            <Form.Item label="Role" name="role">
+              <Controller
+                name="role"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} placeholder="Role">
+                    <Option value="branch-manager">Branch Manager</Option>
+                    <Option value="seller">Seller</Option>
+                  </Select>
+                )}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 8]}>
+          <Col span={24}>
             <Form.Item label="Profile Picture" name="profileImage">
               <Controller
                 name="profileImage"
@@ -195,7 +215,7 @@ const Registration = () => {
                   <Upload
                     {...field}
                     beforeUpload={() => false}
-                    style={{ display: "block" }}
+                    style={{ width: "100%" }}
                   >
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Upload>
