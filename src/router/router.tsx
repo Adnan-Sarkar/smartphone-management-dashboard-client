@@ -1,93 +1,35 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "../pages/Login";
-import Registration from "../pages/Registration";
-import MainLayout from "../components/layout/MainLayout";
-import Inventory from "../components/layout/Inventory";
-import ProtechtedRoute from "../components/layout/ProtechtedRoute";
-import ProductForm from "../components/form/ProductForm";
-import DuplicateProductForm from "../components/form/DuplicateProductForm";
-import DeleteProducts from "../components/layout/DeleteProducts";
-import UpdateProducts from "../components/layout/UpdateProducts";
-import SalesHistory from "../components/layout/SalesHistory";
+import Login from "./../pages/Login";
+import Registration from "./../pages/Registration";
+import App from "../App";
+import { routesGenerator } from "../utils/routesGenerator";
+import { superAdminPaths } from "./superAdmin.route";
+import { managerPaths } from "./manager.route";
+import { sellerPaths } from "./seller.route";
 import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <Inventory />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
+    path: "/super-admin",
+    element: <App />,
+    children: routesGenerator(superAdminPaths),
   },
   {
-    path: "/inventory",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <Inventory />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
+    path: "/branch-manager",
+    element: <App />,
+    children: routesGenerator(managerPaths),
   },
   {
-    path: "/create-product",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <ProductForm />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
-  },
-  {
-    path: "/duplicate-product",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <DuplicateProductForm />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
-  },
-  {
-    path: "/update-products",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <UpdateProducts />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
-  },
-  {
-    path: "/delete-products",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <DeleteProducts />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
-  },
-  {
-    path: "/sales-history",
-    element: (
-      <ProtechtedRoute>
-        <MainLayout>
-          <SalesHistory />
-        </MainLayout>
-      </ProtechtedRoute>
-    ),
+    path: "/seller",
+    element: <App />,
+    children: routesGenerator(sellerPaths),
   },
   {
     path: "/login",
     element: <Login />,
   },
   {
-    path: "/registration",
+    path: "/register",
     element: <Registration />,
   },
   {
