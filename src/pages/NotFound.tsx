@@ -1,11 +1,13 @@
 import { Button, Result } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
 
 const NotFound = () => {
+  const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleNavigateHome = () => {
-    navigate("/inventory");
+    navigate(`/${role}/inventory`);
   };
   return (
     <Result

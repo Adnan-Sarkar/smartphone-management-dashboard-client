@@ -2,15 +2,16 @@ import { Card, Col, Rate, Row, Space } from "antd";
 import { CopyOutlined, DollarOutlined, EyeOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/product.types";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { modalOpen } from "../../redux/features/modal/modalSlice";
 
 const ProductCard = ({ product }: { product: TProduct }) => {
+  const { role } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleDuplicateClick = () => {
-    navigate("/duplicate-product", {
+    navigate(`/${role}/duplicate-product`, {
       state: {
         productInfo: product,
       },
