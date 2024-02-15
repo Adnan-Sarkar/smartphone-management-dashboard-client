@@ -41,6 +41,7 @@ const Login = () => {
           gender: user.gender,
           age: user.age,
           profileImage: user.profileImage,
+          role: user.role,
           token,
         };
 
@@ -51,7 +52,7 @@ const Login = () => {
           duration: 1000,
         });
 
-        navigate("/inventory");
+        navigate(`/${user.role}/inventory`);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
