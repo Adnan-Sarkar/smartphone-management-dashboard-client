@@ -7,5 +7,6 @@ export interface IUser {
   gender: "male" | "female" | null;
   age: number | null;
   profileImage?: string;
+  role: string;
   token: string;
 }
