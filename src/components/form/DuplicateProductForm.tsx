@@ -21,8 +21,10 @@ import DynamicHeader from "../layout/DynamicHeader";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { StorageSizesArray } from "../../constant/storageSize.constant";
+import { useAppSelector } from "../../redux/hooks";
 
 const DuplicateProductForm = () => {
+  const { role } = useAppSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   const [createProduct] = useCreateProductMutation();
   const location = useLocation();
@@ -145,7 +147,7 @@ const DuplicateProductForm = () => {
           duration: 1000,
         });
 
-        navigate("/inventory");
+        navigate(`/${role}/inventory`);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {

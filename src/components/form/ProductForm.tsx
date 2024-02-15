@@ -20,6 +20,7 @@ import { useCreateProductMutation } from "../../redux/features/product/productAp
 import DynamicHeader from "../layout/DynamicHeader";
 import { useNavigate } from "react-router-dom";
 import { StorageSizesArray } from "../../constant/storageSize.constant";
+import { useAppSelector } from "../../redux/hooks";
 
 const defaultValues = {
   battery: "5000 mAh",
@@ -45,6 +46,7 @@ const defaultValues = {
 const ProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [createProduct] = useCreateProductMutation();
+  const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const { handleSubmit, control } = useForm({
     defaultValues,
@@ -136,7 +138,7 @@ const ProductForm = () => {
           duration: 1000,
         });
 
-        navigate("/inventory");
+        navigate(`/${role}/inventory`);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
