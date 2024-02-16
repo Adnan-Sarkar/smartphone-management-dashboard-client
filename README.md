@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)]() [![](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)]() [![](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)]()
 
-This is `Smartphone management System` for a warehouse. The main purpose of the application is to maintain `C-CREATE R-READ U-UPDATE D-DELETE` for products. User can sell a product, and track sales history based on `daily`, `weekly`, `monthly` and `yearly`. Implement `authentication` and `authorization` using jwt token. The entire application's state managed by `redux-toolkit` and data fetching with caching using `redux-toolkit-query`.
+This is `Smartphone Management System` for a warehouse. The main purpose of the application is to maintain `C-CREATE R-READ U-UPDATE D-DELETE` for products. User can sell a product, and track sales history based on `daily`, `weekly`, `monthly` and `yearly`. Implement `authentication` and `authorization` using jwt token. The application is authorized using role based routing. There are 3 types of user roles such as `Super admin`, `Branch manager`, and `Seller`. The entire application's state managed by `redux-toolkit` and data fetching with caching using `redux-toolkit-query`.
 
 Server Github:
 
@@ -13,12 +13,12 @@ https://github.com/Porgramming-Hero-web-course/l2b2-full-stack-a5-server-side-Ad
 Youtube video
 
 ```bash
-https://youtu.be/mK3Cpugz-lk?si=CHcqzj5DGFvlIrFg
+https://youtu.be/vbY0cyaSNu4?si=dvzBIbOoga2vEKSD
 ```
 
 or
 
-[Click to see in youtube](https://youtu.be/mK3Cpugz-lk?si=CHcqzj5DGFvlIrFg)
+[Click to see in youtube](https://youtu.be/vbY0cyaSNu4?si=dvzBIbOoga2vEKSD)
 
 ## Table of Contents
 
@@ -33,19 +33,42 @@ or
 
 ## Key Features
 
-1. **Users:**
+Role Based Routing:
 
-   - User registration to create new accounts.
+1. **Super Admin**
 
-2. **Products:**
+   - Inventory page
+   - Create product page
+   - Duplicate product page
+   - Update product page
+   - Delete product page
+   - Sales history page
+   - Create user page
+   - User list page
+
+2. **Branch Manager**
+
+   - Inventory page
+   - Create product page
+   - Duplicate product page
+   - Update product page
+
+3. **Seller**
+
+   - Inventory page
+
+Functionality:
+
+1. **Products:**
 
    - Create new products.
    - Sell products with a minimum quantity of 1.
+   - Generate and provide a downloadable PDF invoice automatically upon the successful sale of a product.
    - Update existing product details.
    - Delete single/multiple products at a time.
    - Duplicate any product and edit to create a new product.
 
-3. **Sales:**
+2. **Sales:**
    - View daily sales history.
    - View weekly sales history.
    - View monthly sales history.
@@ -61,6 +84,7 @@ or
 - **React Hook Form**
 - **Day.js**
 - **JWT Decode**
+- **jspdf**
 - **Dev Tools**
   - **TypeScript**
   - **ESLint**
