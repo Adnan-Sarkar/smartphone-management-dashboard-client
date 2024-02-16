@@ -56,9 +56,15 @@ const Login = () => {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
+        console.log(err);
         setIsLoading(false);
         if (err?.status === 404) {
           toast.error("No User Found!", {
+            id: toastId,
+            duration: 1000,
+          });
+        } else if (err?.status === 400) {
+          toast.error(err.data.message, {
             id: toastId,
             duration: 1000,
           });
