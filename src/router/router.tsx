@@ -10,6 +10,10 @@ import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <Login />,
+  },
+  {
     path: "/super-admin",
     element: <App />,
     children: routesGenerator(superAdminPaths),
