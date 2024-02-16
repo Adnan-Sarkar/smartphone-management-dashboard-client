@@ -92,7 +92,7 @@ Functionality:
 ### Live Link
 
 ```bash
-https://course-review-with-auth-by-adnan-sarkar.vercel.app/
+https://smartphone-management-by-adnan-sarkar.netlify.app/
 ```
 
 ## Getting Started
